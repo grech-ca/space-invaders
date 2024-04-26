@@ -16,7 +16,7 @@ export class Player extends Entity {
 
   constructor(data: {position: Position, level?: Level}) {
     super({
-      color: '#000',
+      color: '#fff',
       size: {
         height: PLAYER_SIZE,
         width: PLAYER_SIZE,
