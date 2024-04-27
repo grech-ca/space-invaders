@@ -1,4 +1,4 @@
-import { PLAYER_SIZE, STAR_MAX_SIZE } from "../constants"
+import { PLAYER_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, STAR_MAX_SIZE } from "../constants"
 import { Position } from "../types/Position"
 import { Asteroid } from "./Asteroid"
 import { Enemy } from "./Enemy"
@@ -14,14 +14,14 @@ export class Game {
 
   constructor() {
     this.canvas = document.createElement('canvas')
-    this.canvas.height = window.innerHeight * window.devicePixelRatio
-    this.canvas.width = window.innerWidth * window.devicePixelRatio
+    this.canvas.height = SCREEN_HEIGHT
+    this.canvas.width = SCREEN_WIDTH
     this.ctx = this.canvas.getContext('2d')!
     this.level = new Level([
       new Player({
         position: {
-          x: (window.innerWidth - PLAYER_SIZE) / 2,
-          y: (window.innerHeight - PLAYER_SIZE) / 2,
+          x: (SCREEN_WIDTH - PLAYER_SIZE) / 2,
+          y: (SCREEN_HEIGHT - PLAYER_SIZE) / 2,
         }
       }),
     ])
@@ -70,9 +70,9 @@ export class Game {
 
       if (!(this.time % 24)) {
         if (Math.round(Math.random() * 100) > 45) {
-          this.spawnEnemy(Math.round(window.innerWidth / 50 * (Math.random() * 50)))
+          this.spawnEnemy(Math.round(SCREEN_WIDTH / 50 * (Math.random() * 50)))
         } else {
-          this.spawnAsteroid(Math.round(window.innerWidth / 50 * (Math.random() * 50)))
+          this.spawnAsteroid(Math.round(SCREEN_WIDTH / 50 * (Math.random() * 50)))
         }
       }
 
@@ -85,8 +85,8 @@ export class Game {
 
     for (let i = 0; i < 100; i++) {
       this.spawnStar({
-        x: Math.round(Math.random() * (window.innerWidth - STAR_MAX_SIZE)),
-        y: Math.round(Math.random() * (window.innerHeight - STAR_MAX_SIZE)),
+        x: Math.round(Math.random() * (SCREEN_WIDTH - STAR_MAX_SIZE)),
+        y: Math.round(Math.random() * (SCREEN_HEIGHT - STAR_MAX_SIZE)),
       })
     }
 

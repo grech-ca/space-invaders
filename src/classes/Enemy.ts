@@ -2,6 +2,7 @@ import { Entity } from "./Entity";
 import {Position} from '../types/Position'
 import { Player } from "./Player";
 import { ExplosionEffect } from "./ExplosionEffect";
+import { SCREEN_HEIGHT } from "../constants";
 
 export class Enemy extends Entity {
   speed: number
@@ -30,7 +31,7 @@ export class Enemy extends Entity {
       }
     })
 
-    if (this.position.y > window.innerHeight) {
+    if (this.position.y > SCREEN_HEIGHT) {
       this.remove()
     }
   }

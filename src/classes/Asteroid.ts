@@ -1,3 +1,4 @@
+import { SCREEN_HEIGHT } from "../constants";
 import { Position } from "../types/Position";
 import { Entity } from "./Entity";
 import { Player } from "./Player";
@@ -32,7 +33,7 @@ export class Asteroid extends Entity {
       }
     })
 
-    if (this.position.y > window.innerHeight) {
+    if (this.position.y > SCREEN_HEIGHT) {
       this.remove()
     }
   }

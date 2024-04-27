@@ -1,4 +1,4 @@
-import { STAR_MAX_SIZE } from "../constants";
+import { SCREEN_HEIGHT, SCREEN_WIDTH, STAR_MAX_SIZE } from "../constants";
 import { random } from "../helpers/random";
 import { Position } from "../types/Position";
 import { Entity } from "./Entity";
@@ -7,7 +7,7 @@ export class Star extends Entity {
   constructor({
     size = Math.round(Math.random() * STAR_MAX_SIZE),
     position = {
-      x: Math.round(Math.random() * (window.innerWidth - size)),
+      x: Math.round(Math.random() * (SCREEN_WIDTH - size)),
       y: -15,
     }
   }: {size?: number; position?: Position}) {
@@ -25,7 +25,7 @@ export class Star extends Entity {
   tick() {
     this.position.y += 1 * (this.size.height / STAR_MAX_SIZE)
 
-    if (this.position.y - this.size.height > window.innerHeight) {
+    if (this.position.y - this.size.height > SCREEN_HEIGHT) {
       this.remove()
     }
   }

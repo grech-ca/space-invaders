@@ -1,4 +1,4 @@
-import { PLAYER_SIZE, PLAYER_STEP_SIZE, SHOOTING_DELAY } from "../constants";
+import { PLAYER_SIZE, PLAYER_STEP_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, SHOOTING_DELAY } from "../constants";
 import { KeyboardKey } from "../enums/KeyboardKey";
 import { Position } from "../types/Position";
 import { Entity } from "./Entity";
@@ -76,7 +76,7 @@ export class Player extends Entity {
           this.position.y = Math.max(0, this.position.y - PLAYER_STEP_SIZE)
           break
         case KeyboardKey.ArrowDown:
-          this.position.y = Math.min(window.innerHeight - PLAYER_SIZE, this.position.y + PLAYER_STEP_SIZE)
+          this.position.y = Math.min(SCREEN_HEIGHT - PLAYER_SIZE, this.position.y + PLAYER_STEP_SIZE)
           break
         case KeyboardKey.ArrowLeft:
           this.tiltLeft()
@@ -84,7 +84,7 @@ export class Player extends Entity {
           break
         case KeyboardKey.ArrowRight:
           this.tiltRight()
-          this.position.x = Math.min(window.innerWidth - PLAYER_SIZE, this.position.x + PLAYER_STEP_SIZE)
+          this.position.x = Math.min(SCREEN_WIDTH - PLAYER_SIZE, this.position.x + PLAYER_STEP_SIZE)
           break
         case KeyboardKey.Space:
           this.shoot()
