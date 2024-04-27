@@ -1,6 +1,7 @@
 import { Entity } from "./Entity";
 import {Position} from '../types/Position'
 import { Player } from "./Player";
+import { ExplosionEffect } from "./ExplosionEffect";
 
 export class Enemy extends Entity {
   speed: number
@@ -25,12 +26,23 @@ export class Enemy extends Entity {
       if (!(player instanceof Player)) return
 
       if (this.checkCollision(player)) {
-        this.level?.remove(player.id)
+        player.kill()
       }
     })
 
     if (this.position.y > window.innerHeight) {
-      this.level?.remove(this.id)
+      this.remove()
     }
+  }
+
+  kill() {
+    this.level?.spawn(new ExplosionEffect({
+      scale: 10,
+      position: {
+        x: this.position.x + this.size.width / 2 - 50 / 2,
+        y: this.position.y + this.size.height / 2 - 50 / 2,
+      }
+    }))
+    this.remove()
   }
 }

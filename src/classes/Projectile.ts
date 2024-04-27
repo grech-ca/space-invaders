@@ -27,14 +27,14 @@ export class Projectile extends Entity {
     this.level?.entities.forEach((entity) => {
       if (entity instanceof Enemy) {
         if (this.checkCollision(entity)) {
-          this.level?.remove(entity.id)
-          this.level?.remove(this.id)
+          entity.kill()
+          this.remove()
         }
       }
 
       if (entity instanceof Asteroid) {
         if (this.checkCollision(entity)) {
-          this.level?.remove(this.id)
+          this.remove()
         }
       }
     })

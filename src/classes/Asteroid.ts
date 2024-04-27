@@ -25,12 +25,12 @@ export class Asteroid extends Entity {
       if (!(player instanceof Player)) return
 
       if (this.checkCollision(player)) {
-        this.level?.remove(player.id)
+        player.kill()
       }
     })
 
     if (this.position.y > window.innerHeight) {
-      this.level?.remove(this.id)
+      this.remove()
     }
   }
 }

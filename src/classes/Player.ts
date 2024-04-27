@@ -2,6 +2,7 @@ import { PLAYER_SIZE, PLAYER_STEP_SIZE, SHOOTING_DELAY } from "../constants";
 import { KeyboardKey } from "../enums/KeyboardKey";
 import { Position } from "../types/Position";
 import { Entity } from "./Entity";
+import { ExplosionEffect } from "./ExplosionEffect";
 import { Level } from "./Level";
 import { Projectile } from "./Projectile";
 
@@ -41,6 +42,17 @@ export class Player extends Entity {
         y: this.position.y,
       }
     }))
+  }
+
+  kill() {
+    this.level?.spawn(new ExplosionEffect({
+      scale: 10,
+      position: {
+        x: this.position.x + this.size.width / 2 - 50 / 2,
+        y: this.position.y + this.size.height / 2 - 50 / 2,
+      }
+    }))
+    this.remove()
   }
 
   tick() {

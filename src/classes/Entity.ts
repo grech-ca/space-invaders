@@ -20,6 +20,15 @@ export class Entity {
 
   tick() {}
 
+  draw(ctx: CanvasRenderingContext2D) {
+    ctx.fillStyle = this.color
+    ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
+  }
+
+  remove() {
+    this.level?.remove(this.id)
+  }
+
   private checkPointCollision(point: Position, entity: Entity) {
     return point.x >= entity.position.x
       && point.x <= entity.position.x + entity.size.width

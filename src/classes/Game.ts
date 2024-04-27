@@ -1,7 +1,6 @@
 import { PLAYER_SIZE } from "../constants"
 import { Asteroid } from "./Asteroid"
 import { Enemy } from "./Enemy"
-import { Entity } from "./Entity"
 import { Level } from "./Level"
 import { Player } from "./Player"
 
@@ -45,11 +44,6 @@ export class Game {
     }))
   }
 
-  private drawEntity(entity: Entity) {
-    this.ctx.fillStyle = entity.color
-    this.ctx.fillRect(entity.position.x, entity.position.y, entity.size.width, entity.size.height)
-  }
-
   private repaint() {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
@@ -58,7 +52,7 @@ export class Game {
       if (!entity) return
 
       entity.tick?.()
-      this.drawEntity(entity)
+      entity.draw(this.ctx)
     })
   }
 
