@@ -3,6 +3,7 @@ import {Position} from '../types/Position'
 import { PROJECTILE_STEP_SIZE } from "../constants";
 import { Enemy } from "./Enemy";
 import { Asteroid } from "./Asteroid";
+import { SFX } from "./SFX";
 
 export class Projectile extends Entity {
   constructor(data: {position: Position}) {
@@ -14,6 +15,8 @@ export class Projectile extends Entity {
       },
       color: '#fa0',
     })
+
+    SFX.play('shoot')
   }
   
   tick() {
@@ -35,6 +38,7 @@ export class Projectile extends Entity {
       if (entity instanceof Asteroid) {
         if (this.checkCollision(entity)) {
           this.remove()
+          SFX.play('hit')
         }
       }
     })

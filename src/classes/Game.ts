@@ -4,6 +4,7 @@ import { Asteroid } from "./Asteroid"
 import { Enemy } from "./Enemy"
 import { Level } from "./Level"
 import { Player } from "./Player"
+import { SFX } from "./SFX"
 import { Star } from "./Star"
 
 export class Game {
@@ -64,6 +65,8 @@ export class Game {
   }
 
   start() {
+    SFX.init()
+
     const step: FrameRequestCallback = () => {
       this.repaint()
       this.time++

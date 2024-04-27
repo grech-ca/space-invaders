@@ -3,5 +3,5 @@ export const PLAYER_SIZE = 25
 export const PROJECTILE_STEP_SIZE = 15
 export const SHOOTING_DELAY = 200
 export const STAR_MAX_SIZE = 5
-export const SCREEN_HEIGHT = window.innerHeight * window.devicePixelRatio
-export const SCREEN_WIDTH = window.innerWidth * window.devicePixelRatio
+export const SCREEN_HEIGHT = window.innerHeight
+export const SCREEN_WIDTH = window.innerWidth
