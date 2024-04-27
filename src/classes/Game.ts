@@ -13,8 +13,8 @@ export class Game {
 
   constructor() {
     this.canvas = document.createElement('canvas')
-    this.canvas.height = window.innerHeight
-    this.canvas.width = window.innerWidth
+    this.canvas.height = window.innerHeight * window.devicePixelRatio
+    this.canvas.width = window.innerWidth * window.devicePixelRatio
     this.ctx = this.canvas.getContext('2d')!
     this.level = new Level([
       new Player({
