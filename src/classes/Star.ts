@@ -17,7 +17,8 @@ export class Star extends Entity {
         height: size,
       },
       position,
-      color: `hsla(${random([119, 360, 193, 53])}, 100%, ${Math.round(Math.random() * 10) > 5 ? '100%' : '70%'}, ${size / STAR_MAX_SIZE * 80}%)`
+      color: `hsla(${random([119, 360, 193, 53])}, 100%, ${Math.round(Math.random() * 10) > 5 ? '100%' : '70%'}, ${size / STAR_MAX_SIZE * 80}%)`,
+      angle: Math.round(Math.random() * 360),
     })
   }
 
