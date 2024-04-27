@@ -27,7 +27,8 @@ export class Enemy extends Entity {
       if (!(player instanceof Player)) return
 
       if (this.checkCollision(player)) {
-        player.kill()
+        this.kill()
+        player.damage(1)
       }
     })
 

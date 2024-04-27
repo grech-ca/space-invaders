@@ -29,7 +29,7 @@ export class Asteroid extends Entity {
       if (!(player instanceof Player)) return
 
       if (this.checkCollision(player)) {
-        player.kill()
+        player.damage(2)
       }
     })
 

@@ -5,10 +5,13 @@ import { Entity } from "./Entity";
 import { ExplosionEffect } from "./ExplosionEffect";
 import { Level } from "./Level";
 import { Projectile } from "./Projectile";
+import { SFX } from "./SFX";
 
 export class Player extends Entity {
-  activeKeys: Map<KeyboardKey, boolean> = new Map()
-  canShoot = true
+  private activeKeys: Map<KeyboardKey, boolean> = new Map()
+  private canShoot = true
+  private isInvincible = false
+  private health = 3
 
   private activateKey = (key: KeyboardKey) => {
     this.activeKeys.set(key, true)
@@ -55,6 +58,20 @@ export class Player extends Entity {
     this.remove()
   }
 
+  damage(value: number) {
+    if (this.isInvincible) return
+
+    this.health -= value
+
+    if (this.health <= 0) {
+      this.kill()
+    } else {
+      SFX.play('hit')
+      this.isInvincible = true
+      setTimeout(() => this.isInvincible = false, 500)
+    }
+  }
+
   private tiltLeft() {
     this.angle = -15
   }
@@ -65,6 +82,15 @@ export class Player extends Entity {
 
   private resetAngle() {
     this.angle = 0
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    super.draw(ctx)
+
+    ctx.save()
+    ctx.fillStyle = '#f33'
+    ctx.fillRect(15, 15, 50 * this.health, 15)
+    ctx.restore()
   }
 
   tick() {
