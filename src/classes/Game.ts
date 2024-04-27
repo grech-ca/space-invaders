@@ -1,8 +1,10 @@
-import { PLAYER_SIZE } from "../constants"
+import { PLAYER_SIZE, STAR_MAX_SIZE } from "../constants"
+import { Position } from "../types/Position"
 import { Asteroid } from "./Asteroid"
 import { Enemy } from "./Enemy"
 import { Level } from "./Level"
 import { Player } from "./Player"
+import { Star } from "./Star"
 
 export class Game {
   canvas: HTMLCanvasElement
@@ -44,6 +46,10 @@ export class Game {
     }))
   }
 
+  private spawnStar(position?: Position) {
+    this.level.spawn(new Star({position}))
+  }
+
   private repaint() {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
@@ -62,6 +68,13 @@ export class Game {
       requestAnimationFrame(step)
     }
 
+    for (let i = 0; i < 100; i++) {
+      this.spawnStar({
+        x: Math.round(Math.random() * (window.innerWidth - STAR_MAX_SIZE)),
+        y: Math.round(Math.random() * (window.innerHeight - STAR_MAX_SIZE)),
+      })
+    }
+
     setInterval(() => {
       if (Math.round(Math.random() * 100) > 45) {
         this.spawnEnemy(Math.round(window.innerWidth / 50 * (Math.random() * 50)))
@@ -69,6 +82,10 @@ export class Game {
         this.spawnAsteroid(Math.round(window.innerWidth / 50 * (Math.random() * 50)))
       }
     }, 400)
+
+    setInterval(() => {
+      this.spawnStar()
+    }, 200)
 
     requestAnimationFrame(step)
   }
