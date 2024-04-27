@@ -10,6 +10,7 @@ export class Game {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   level: Level
+  time: number = 0
 
   constructor() {
     this.canvas = document.createElement('canvas')
@@ -65,6 +66,20 @@ export class Game {
   start() {
     const step: FrameRequestCallback = () => {
       this.repaint()
+      this.time++
+
+      if (!(this.time % 24)) {
+        if (Math.round(Math.random() * 100) > 45) {
+          this.spawnEnemy(Math.round(window.innerWidth / 50 * (Math.random() * 50)))
+        } else {
+          this.spawnAsteroid(Math.round(window.innerWidth / 50 * (Math.random() * 50)))
+        }
+      }
+
+      if (!(this.time % 10)) {
+        this.spawnStar()
+      }
+
       requestAnimationFrame(step)
     }
 
@@ -74,18 +89,6 @@ export class Game {
         y: Math.round(Math.random() * (window.innerHeight - STAR_MAX_SIZE)),
       })
     }
-
-    setInterval(() => {
-      if (Math.round(Math.random() * 100) > 45) {
-        this.spawnEnemy(Math.round(window.innerWidth / 50 * (Math.random() * 50)))
-      } else {
-        this.spawnAsteroid(Math.round(window.innerWidth / 50 * (Math.random() * 50)))
-      }
-    }, 400)
-
-    setInterval(() => {
-      this.spawnStar()
-    }, 200)
 
     requestAnimationFrame(step)
   }
