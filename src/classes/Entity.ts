@@ -8,21 +8,27 @@ export class Entity {
   position: Position
   size: Size
   color: string
+  angle: number
   level?: Level
 
-  constructor(data: Pick<Entity, 'size' | 'position' | 'color' | 'level'>) {
+  constructor(data: {size: Size; position: Position; level?: Level; angle?: number; color: string}) {
     this.id = createId()
     this.size = data.size
     this.position = data.position
     this.color = data.color
     this.level = data.level
+    this.angle = data.angle ?? 0
   }
 
   tick() {}
 
   draw(ctx: CanvasRenderingContext2D) {
+    ctx.save()
+    ctx.translate(this.position.x + this.size.width / 2, this.position.y + this.size.height / 2)
+    ctx.rotate(Math.PI / 180 * this.angle)
     ctx.fillStyle = this.color
-    ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
+    ctx.fillRect(-this.size.width / 2, -this.size.height, this.size.width, this.size.height)
+    ctx.restore()
   }
 
   remove() {

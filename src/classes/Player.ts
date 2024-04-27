@@ -55,6 +55,18 @@ export class Player extends Entity {
     this.remove()
   }
 
+  private tiltLeft() {
+    this.angle = -15
+  }
+
+  private tiltRight() {
+    this.angle = 15
+  }
+
+  private resetAngle() {
+    this.angle = 0
+  }
+
   tick() {
     this.activeKeys.forEach((value, key) => {
       if (!value) return
@@ -67,9 +79,11 @@ export class Player extends Entity {
           this.position.y = Math.min(window.innerHeight - PLAYER_SIZE, this.position.y + PLAYER_STEP_SIZE)
           break
         case KeyboardKey.ArrowLeft:
+          this.tiltLeft()
           this.position.x = Math.max(0, this.position.x - PLAYER_STEP_SIZE)
           break
         case KeyboardKey.ArrowRight:
+          this.tiltRight()
           this.position.x = Math.min(window.innerWidth - PLAYER_SIZE, this.position.x + PLAYER_STEP_SIZE)
           break
         case KeyboardKey.Space:
@@ -77,5 +91,9 @@ export class Player extends Entity {
           break
       }
     })
+
+    if (!(this.activeKeys.get(KeyboardKey.ArrowLeft) || this.activeKeys.get(KeyboardKey.ArrowRight))) {
+      this.resetAngle()
+    }
   }
 }
