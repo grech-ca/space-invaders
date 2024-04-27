@@ -3,10 +3,6 @@ import { Effect } from "./Effect";
 import { SFX } from "./SFX";
 
 export class ExplosionEffect extends Effect {
-  sounds = {
-    explosion: new Audio('/audio/explosion.wav')
-  }
-
   constructor({position, scale = 10}: {position: Position; scale?: number}) {
     super({
       frames: [
