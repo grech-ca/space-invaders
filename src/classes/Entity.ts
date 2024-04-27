@@ -27,7 +27,7 @@ export class Entity {
     ctx.translate(this.position.x + this.size.width / 2, this.position.y + this.size.height / 2)
     ctx.rotate(Math.PI / 180 * this.angle)
     ctx.fillStyle = this.color
-    ctx.fillRect(-this.size.width / 2, -this.size.height, this.size.width, this.size.height)
+    ctx.fillRect(-this.size.width / 2, -this.size.height / 2, this.size.width, this.size.height)
     ctx.restore()
   }
 
