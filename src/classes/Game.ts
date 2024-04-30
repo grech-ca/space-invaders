@@ -1,6 +1,8 @@
 import { PLAYER_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, STAR_MAX_SIZE } from "../constants"
+import { randomInRange } from "../helpers/random-in-range"
 import { Position } from "../types/Position"
 import { Asteroid } from "./Asteroid"
+import { Constellation } from "./Constellation"
 import { Enemy } from "./Enemy"
 import { Level } from "./Level"
 import { Player } from "./Player"
@@ -52,6 +54,10 @@ export class Game {
     this.level.spawn(new Star({position}))
   }
 
+  private spawnConstellation(position?: Position) {
+    this.level.spawn(new Constellation({position}))
+  }
+
   private repaint() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -83,6 +89,10 @@ export class Game {
         this.spawnStar()
       }
 
+      if (!(this.time % 1000)) {
+        this.spawnConstellation()
+      }
+
       requestAnimationFrame(step)
     }
 
@@ -90,6 +100,13 @@ export class Game {
       this.spawnStar({
         x: Math.round(Math.random() * (SCREEN_WIDTH - STAR_MAX_SIZE)),
         y: Math.round(Math.random() * (SCREEN_HEIGHT - STAR_MAX_SIZE)),
+      })
+    }
+
+    for (let i = 0; i < 5; i++) {
+      this.spawnConstellation({
+        x: randomInRange(0, SCREEN_WIDTH),
+        y: randomInRange(0, SCREEN_HEIGHT),
       })
     }
 

@@ -9,15 +9,16 @@ export class Star extends Entity {
     position = {
       x: Math.round(Math.random() * (SCREEN_WIDTH - size)),
       y: -15,
-    }
-  }: {size?: number; position?: Position}) {
+    },
+    color = `hsla(${random([119, 360, 193, 53])}, 100%, ${Math.round(Math.random() * 10) > 5 ? '100%' : '70%'}, ${size / STAR_MAX_SIZE * 80}%)`,
+  }: {size?: number; position?: Position; color?: string}) {
     super({
       size: {
         width: size,
         height: size,
       },
       position,
-      color: `hsla(${random([119, 360, 193, 53])}, 100%, ${Math.round(Math.random() * 10) > 5 ? '100%' : '70%'}, ${size / STAR_MAX_SIZE * 80}%)`,
+      color,
       angle: Math.round(Math.random() * 360),
     })
   }
