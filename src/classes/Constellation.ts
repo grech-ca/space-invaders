@@ -90,6 +90,19 @@ export class Constellation extends Entity {
     this.tree = this.createNode(this.starsCount)
   }
 
+  private get stars() {
+    const stars: Star[] = []
+
+    const appendStar = (node: ConstellationNode) => {
+      stars.push(node.star)
+      node.nodes.forEach(appendStar)
+    }
+
+    appendStar(this.tree)
+
+    return stars
+  }
+
   private drawNode(node: ConstellationNode, ctx: CanvasRenderingContext2D) {
     node.star.draw(ctx)
     node.nodes.forEach(subNode => this.drawNode(subNode, ctx))
@@ -121,5 +134,8 @@ export class Constellation extends Entity {
 
   tick() {
     this.tickNode(this.tree)
+    if (!this.stars.some(star => star.position.y - star.size.height < game.canvas.height)) {
+      this.remove()
+    }
   }
 }
