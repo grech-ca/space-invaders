@@ -1,6 +1,6 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants";
 import { random } from "../helpers/random";
 import { randomInRange } from "../helpers/random-in-range";
+import { game } from "../main";
 import { Position } from "../types/Position";
 import { Entity } from "./Entity";
 import { Star } from "./Star";
@@ -47,7 +47,7 @@ export class Constellation extends Entity {
         x: parentStar.position.x + Math.cos(angle) * range * parentStar.size.height,
         y: parentStar.position.y + Math.sin(angle) * range * parentStar.size.height,
       } : this.position,
-      size: parentStar?.size?.height ?? randomInRange(1, 2),
+      size: parentStar?.size?.height ?? randomInRange(1, 2) * devicePixelRatio,
     })
 
     for (const starsPerBranch of starsPerBranches) {
@@ -64,8 +64,8 @@ export class Constellation extends Entity {
     starsCount = randomInRange(MIN_STARS_COUNT, MAX_STARS_COUNT),
     jointColor = random(['#fff']),
     position = {
-      x: randomInRange(0, SCREEN_WIDTH),
-      y: -SCREEN_HEIGHT/4,
+      x: randomInRange(0, game.canvas.width),
+      y: -game.canvas.height/4,
     },
   }: {
     starsCount?: number
@@ -101,8 +101,8 @@ export class Constellation extends Entity {
       ctx.lineWidth = 0.1
       ctx.strokeStyle = this.jointColor
       ctx.beginPath()
-      ctx.moveTo(node.star.position.x, node.star.position.y)
-      ctx.lineTo(parentNode.star.position.x, parentNode.star.position.y)
+      ctx.moveTo(node.star.position.x + 0.5, node.star.position.y)
+      ctx.lineTo(parentNode.star.position.x + 0.5, parentNode.star.position.y)
       ctx.stroke()
       ctx.restore()
     }

@@ -1,13 +1,14 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH, STAR_MAX_SIZE } from "../constants";
+import { STAR_MAX_SIZE } from "../constants";
 import { random } from "../helpers/random";
+import { game } from "../main";
 import { Position } from "../types/Position";
 import { Entity } from "./Entity";
 
 export class Star extends Entity {
   constructor({
-    size = Math.round(Math.random() * STAR_MAX_SIZE),
+    size = Math.round(Math.random() * STAR_MAX_SIZE) * devicePixelRatio,
     position = {
-      x: Math.round(Math.random() * (SCREEN_WIDTH - size)),
+      x: Math.round(Math.random() * (game.canvas.width - size)),
       y: -15,
     },
     color = `hsla(${random([119, 360, 193, 53])}, 100%, ${Math.round(Math.random() * 10) > 5 ? '100%' : '70%'}, ${size / STAR_MAX_SIZE * 80}%)`,
@@ -24,9 +25,9 @@ export class Star extends Entity {
   }
 
   tick() {
-    this.position.y += 1 * (this.size.height / STAR_MAX_SIZE)
+    this.position.y += 1 * (this.size.height / STAR_MAX_SIZE) * devicePixelRatio
 
-    if (this.position.y - this.size.height > SCREEN_HEIGHT) {
+    if (this.position.y - this.size.height > (game.canvas.height ?? 0)) {
       this.remove()
     }
   }

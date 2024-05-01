@@ -1,5 +1,6 @@
-import { PLAYER_SIZE, PLAYER_STEP_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, SHOOTING_DELAY } from "../constants";
+import { PLAYER_SIZE, PLAYER_STEP_SIZE, SHOOTING_DELAY } from "../constants";
 import { KeyboardKey } from "../enums/KeyboardKey";
+import { game } from "../main";
 import { Position } from "../types/Position";
 import { Entity } from "./Entity";
 import { ExplosionEffect } from "./ExplosionEffect";
@@ -22,8 +23,8 @@ export class Player extends Entity {
     super({
       color: '#fff',
       size: {
-        height: PLAYER_SIZE,
-        width: PLAYER_SIZE,
+        height: PLAYER_SIZE * devicePixelRatio,
+        width: PLAYER_SIZE * devicePixelRatio,
       },
       position: data.position,
       level: data.level,
@@ -49,7 +50,7 @@ export class Player extends Entity {
 
   kill() {
     this.level?.spawn(new ExplosionEffect({
-      scale: 10,
+      scale: 10 * devicePixelRatio,
       position: {
         x: this.position.x + this.size.width / 2 - 50 / 2,
         y: this.position.y + this.size.height / 2 - 50 / 2,
@@ -87,9 +88,10 @@ export class Player extends Entity {
   draw(ctx: CanvasRenderingContext2D) {
     super.draw(ctx)
 
+    // Health bar
     ctx.save()
     ctx.fillStyle = '#f33'
-    ctx.fillRect(15, 15, 50 * this.health, 15)
+    ctx.fillRect(15 * devicePixelRatio, 15 * devicePixelRatio, 50 * this.health * devicePixelRatio, 15 * devicePixelRatio)
     ctx.restore()
   }
 
@@ -99,18 +101,18 @@ export class Player extends Entity {
 
       switch (key) {
         case KeyboardKey.ArrowUp:
-          this.position.y = Math.max(0, this.position.y - PLAYER_STEP_SIZE)
+          this.position.y = Math.max(0, this.position.y - PLAYER_STEP_SIZE * devicePixelRatio)
           break
         case KeyboardKey.ArrowDown:
-          this.position.y = Math.min(SCREEN_HEIGHT - PLAYER_SIZE, this.position.y + PLAYER_STEP_SIZE)
+          this.position.y = Math.min(game.canvas.height - this.size.height, this.position.y + PLAYER_STEP_SIZE * devicePixelRatio)
           break
         case KeyboardKey.ArrowLeft:
           this.tiltLeft()
-          this.position.x = Math.max(0, this.position.x - PLAYER_STEP_SIZE)
+          this.position.x = Math.max(0, this.position.x - PLAYER_STEP_SIZE * devicePixelRatio)
           break
         case KeyboardKey.ArrowRight:
           this.tiltRight()
-          this.position.x = Math.min(SCREEN_WIDTH - PLAYER_SIZE, this.position.x + PLAYER_STEP_SIZE)
+          this.position.x = Math.min(game.canvas.width - this.size.width, this.position.x + PLAYER_STEP_SIZE * devicePixelRatio)
           break
         case KeyboardKey.Space:
           this.shoot()

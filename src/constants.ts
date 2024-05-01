@@ -5,3 +5,5 @@ export const SHOOTING_DELAY = 200
 export const STAR_MAX_SIZE = 5
 export const SCREEN_HEIGHT = window.innerHeight
 export const SCREEN_WIDTH = window.innerWidth
+export const FPS = 60
+export const MS_PER_FRAME = 1000 / FPS

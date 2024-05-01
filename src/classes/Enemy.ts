@@ -2,7 +2,7 @@ import { Entity } from "./Entity";
 import {Position} from '../types/Position'
 import { Player } from "./Player";
 import { ExplosionEffect } from "./ExplosionEffect";
-import { SCREEN_HEIGHT } from "../constants";
+import { game } from "../main";
 
 export class Enemy extends Entity {
   speed: number
@@ -10,8 +10,8 @@ export class Enemy extends Entity {
   constructor(data: {position: Position}) {
     super({
       size: {
-        width: 35,
-        height: 35,
+        width: 35 * devicePixelRatio,
+        height: 35 * devicePixelRatio,
       },
       position: data.position,
       color: '#75f',
@@ -21,7 +21,7 @@ export class Enemy extends Entity {
   }
 
   tick() {
-    this.position.y += this.speed
+    this.position.y += this.speed * devicePixelRatio
 
     this.level?.entities.forEach(player => {
       if (!(player instanceof Player)) return
@@ -32,14 +32,14 @@ export class Enemy extends Entity {
       }
     })
 
-    if (this.position.y > SCREEN_HEIGHT) {
+    if (this.position.y > game.canvas.height) {
       this.remove()
     }
   }
 
   kill() {
     this.level?.spawn(new ExplosionEffect({
-      scale: 10,
+      scale: 10 * devicePixelRatio,
       position: {
         x: this.position.x + this.size.width / 2 - 50 / 2,
         y: this.position.y + this.size.height / 2 - 50 / 2,

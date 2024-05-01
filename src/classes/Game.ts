@@ -1,4 +1,4 @@
-import { PLAYER_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, STAR_MAX_SIZE } from "../constants"
+import { MS_PER_FRAME, PLAYER_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, STAR_MAX_SIZE } from "../constants"
 import { randomInRange } from "../helpers/random-in-range"
 import { Position } from "../types/Position"
 import { Asteroid } from "./Asteroid"
@@ -14,17 +14,21 @@ export class Game {
   ctx: CanvasRenderingContext2D
   level: Level
   time: number = 0
+  isPaused = false
+  ratio = window.devicePixelRatio
 
   constructor() {
     this.canvas = document.createElement('canvas')
-    this.canvas.height = SCREEN_HEIGHT
-    this.canvas.width = SCREEN_WIDTH
+    this.canvas.height = Math.floor(SCREEN_HEIGHT * window.devicePixelRatio)
+    this.canvas.width = Math.floor(SCREEN_WIDTH * window.devicePixelRatio)
+    this.canvas.style.height = `${SCREEN_HEIGHT}px`
+    this.canvas.style.width = `${SCREEN_WIDTH}px`
     this.ctx = this.canvas.getContext('2d')!
     this.level = new Level([
       new Player({
         position: {
-          x: (SCREEN_WIDTH - PLAYER_SIZE) / 2,
-          y: (SCREEN_HEIGHT - PLAYER_SIZE) / 2,
+          x: (this.canvas.width - PLAYER_SIZE) / 2,
+          y: (this.canvas.height - PLAYER_SIZE) / 2,
         }
       }),
     ])
@@ -73,43 +77,52 @@ export class Game {
   start() {
     SFX.init()
 
-    const step: FrameRequestCallback = () => {
-      this.repaint()
-      this.time++
+    document.addEventListener('keyup', ({key}) => {
+      if (key === 'Escape') {
+        console.log(this.isPaused)
+        this.isPaused = !this.isPaused
+      }
+    })
 
-      if (!(this.time % 24)) {
-        if (Math.round(Math.random() * 100) > 45) {
-          this.spawnEnemy(Math.round(SCREEN_WIDTH / 50 * (Math.random() * 50)))
-        } else {
-          this.spawnAsteroid(Math.round(SCREEN_WIDTH / 50 * (Math.random() * 50)))
+    const step: FrameRequestCallback = () => {
+      if (!this.isPaused) {
+        this.repaint()
+        this.time++
+
+        if (!(this.time % 24)) {
+          if (Math.round(Math.random() * 100) > 45) {
+            this.spawnEnemy(Math.round(this.canvas.width / 50 * (Math.random() * 50)))
+          } else {
+            this.spawnAsteroid(Math.round(this.canvas.width / 50 * (Math.random() * 50)))
+          }
+        }
+
+        if (!(this.time % 10)) {
+          this.spawnStar()
+        }
+
+        if (!(this.time % 1000)) {
+          this.spawnConstellation()
         }
       }
 
-      if (!(this.time % 10)) {
-        this.spawnStar()
-      }
-
-      if (!(this.time % 1000)) {
-        this.spawnConstellation()
-      }
-
-      requestAnimationFrame(step)
+      setTimeout(step, MS_PER_FRAME)
     }
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
       this.spawnStar({
-        x: Math.round(Math.random() * (SCREEN_WIDTH - STAR_MAX_SIZE)),
-        y: Math.round(Math.random() * (SCREEN_HEIGHT - STAR_MAX_SIZE)),
+        x: Math.round(Math.random() * (this.canvas.width - STAR_MAX_SIZE)),
+        y: Math.round(Math.random() * (this.canvas.height - STAR_MAX_SIZE)),
       })
     }
 
     for (let i = 0; i < 5; i++) {
       this.spawnConstellation({
-        x: randomInRange(0, SCREEN_WIDTH),
-        y: randomInRange(0, SCREEN_HEIGHT),
+        x: randomInRange(0, this.canvas.width),
+        y: randomInRange(0, this.canvas.height),
       })
     }
 
-    requestAnimationFrame(step)
+    setTimeout(step, MS_PER_FRAME)
   }
 }

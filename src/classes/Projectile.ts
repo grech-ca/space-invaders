@@ -10,8 +10,8 @@ export class Projectile extends Entity {
     super({
       position: data.position,
       size: {
-        height: 15,
-        width: 4,
+        height: 15 * devicePixelRatio,
+        width: 4 * devicePixelRatio,
       },
       color: '#fa0',
     })
@@ -25,7 +25,7 @@ export class Projectile extends Entity {
       return
     }
 
-    this.position.y -= PROJECTILE_STEP_SIZE
+    this.position.y -= PROJECTILE_STEP_SIZE * devicePixelRatio
 
     this.level?.entities.forEach((entity) => {
       if (entity instanceof Enemy) {
