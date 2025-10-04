@@ -9,6 +9,7 @@ export class Effect extends Entity {
   ticksPerFrame: number
   ticksElapsed: number = 0
   isFinite: boolean
+  speed: number = 0
 
   constructor(data: {
     frames: Frame[]
@@ -16,6 +17,7 @@ export class Effect extends Entity {
     ticksPerFrame: number
     position: Position
     isFinite: boolean
+    speed?: number
   }) {
     super({
       position: data.position,
@@ -30,9 +32,11 @@ export class Effect extends Entity {
     this.scale = data.scale
     this.ticksPerFrame = data.ticksPerFrame
     this.isFinite = data.isFinite
+    if (data.speed) this.speed = data.speed
   }
 
   tick() {
+    this.position.y += this.speed * devicePixelRatio
     this.ticksElapsed++
   }
 

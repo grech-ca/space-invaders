@@ -3,7 +3,7 @@ import { Effect } from "./Effect";
 import { SFX } from "./SFX";
 
 export class ExplosionEffect extends Effect {
-  constructor({position, scale = 10}: {position: Position; scale?: number}) {
+  constructor({position, scale = 10, speed = 0}: {position: Position; scale?: number; speed?: number}) {
     super({
       frames: [
         [
@@ -53,6 +53,7 @@ export class ExplosionEffect extends Effect {
       isFinite: true,
       position,
       scale,
+      speed,
     })
 
     SFX.play('explosion')

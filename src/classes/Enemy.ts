@@ -43,7 +43,8 @@ export class Enemy extends Entity {
       position: {
         x: this.position.x + this.size.width / 2 - 50 / 2,
         y: this.position.y + this.size.height / 2 - 50 / 2,
-      }
+      },
+      speed: this.speed
     }))
     this.remove()
   }
